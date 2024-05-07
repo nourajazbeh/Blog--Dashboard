@@ -1,19 +1,23 @@
-image: node:latest
+on:
+  push:
+    branches:
+      - main
 
-stages:
-  - install
-  - build
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-cache:
-  paths:
-    - node_modules/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-install:
-  stage: install
-  script:
-    - npm install
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
 
-build:
-  stage: build
-  script:
-    - npm run build
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build application
+        run: npm run build
